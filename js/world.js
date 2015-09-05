@@ -1,3 +1,13 @@
+function Saint(name, power) {
+    this.name = name;
+    this.power = power;
+    this.energyLeft = 5;
+}
+
+Saint.prototype.useEnergy = function() {
+    this.energyLeft--;
+};
+
 function World() {
     this.IMAGE_WIDTH = 941;
     this.IMAGE_HEIGHT = 1009;
@@ -9,24 +19,40 @@ function World() {
     this.context = this.canvas.getContext('2d');
     this.grid = new Grid(this.GRID_WIDTH, this.GRID_HEIGHT);
     this.gridImage = new Image();
-    this.seyaImage = new Image();
+    this.SeiyaImage = new Image();
+    this.saints = [
+        new Saint("Seiya", 1.5),
+        new Saint("Shiryu", 1.4),
+        new Saint("Hyoga", 1.3),
+        new Saint("Shun", 1.2),
+        new Saint("Ikki", 1.1)
+    ];
+    this.timeElapsed = 0;
+    this.position = null;
+    this.loadImages();
 }
 
 World.prototype.init = function() {
     this.initGrid();
-
+    this.position = this.grid.getStart();
+    this.render();
 };
 
-World.prototype.initGrid = function() {
+World.prototype.loadImages = function() {
     this.gridImage.crossOrigin = 'anonymous';
     this.gridImage.src = 'images/grid.png';
     var that = this;
     this.gridImage.onload = function() {
-        that.context.drawImage(that.gridImage, 0, 0);
-        that.populateGrid();
-        that.placeSeya();
-        console.log(that.grid);
+        that.SeiyaImage.src = 'images/seiya.png';
+        that.SeiyaImage.onload = function() {
+            that.init();
+        };
     };
+};
+
+World.prototype.initGrid = function() {
+    this.context.drawImage(this.gridImage, 0, 0);
+    this.populateGrid();
 };
 
 World.prototype.populateGrid = function() {
@@ -47,20 +73,21 @@ World.prototype.populateGrid = function() {
     }
 };
 
-World.prototype.placeSeya = function() {
-    this.seyaImage.src = 'images/seya.png';
-    var that = this;
-    this.seyaImage.onload = function() {
-        var index = that.grid.getStart();
-        var coords = that.getCoordsByIndex(index[0], index[1]);
-        console.log(coords);
-        that.context.drawImage(that.seyaImage,
-            coords[0], coords[1] + 1);
-    };
-};
-
 World.prototype.getCoordsByIndex = function(i, j) {
     var x = Math.floor(i * this.CELL_WIDTH);
     var y = Math.floor(j * this.CELL_HEIGHT);
     return [x, y];
+};
+
+World.prototype.render = function() {
+    var coords = this.getCoordsByIndex(this.position[0], this.position[1]);
+    this.context.drawImage(this.gridImage, 0, 0);
+    this.context.drawImage(this.SeiyaImage,
+        coords[0], coords[1] + 1);
+    statusData = {
+        'saints': this.saints,
+        'position': this.position,
+        'timeElapsed': this.timeElapsed
+    };
+    renderStatus(statusData);
 };

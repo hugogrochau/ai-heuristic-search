@@ -13,4 +13,8 @@ function drawCross(x, y, context) {
 }
 
 var world = new World();
-world.init();
+
+document.getElementById("take-energy").addEventListener('click', function() {
+	world.saints[0].useEnergy();
+	world.render();
+});

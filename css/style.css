@@ -1,0 +1,21 @@
+canvas, .game-info {
+    display: inline-block;
+}
+
+.game-info {
+    vertical-align: top;
+}
+
+.status-info {
+    display: block;
+    position: absolute;
+}
+
+table {
+   border-collapse: collapse;
+   border: 1px solid black;
+}
+
+table td, table th {
+   border: 1px solid black;
+}

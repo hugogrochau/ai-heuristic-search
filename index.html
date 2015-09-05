@@ -2,11 +2,22 @@
 <html>
 <header>
 	<title>AI Heuristic Search</title>
+	<link rel="stylesheet" href="/css/style.css" media="screen" title="no title" charset="utf-8">
 </header>
 <body>
 	<canvas width="941" height="1009"></canvas>
+	<div id="game-info" class="game-info">
+		<div id="status" class="status-container"></div>
+		<div id="ui">
+			<button id="take-energy">Take energy</button>
+		</div>
+	</div>
 </body>
-<script src="js/grid.js" type="text/javascript" charset="utf-8" async defer></script>
-<script src="js/world.js" type="text/javascript" charset="utf-8" async defer></script>
-<script src="js/main.js" type="text/javascript" charset="utf-8" async defer></script>
+<script src="https://fb.me/react-0.13.3.min.js"></script>
+<script src="https://fb.me/JSXTransformer-0.13.3.js"></script>
+<script src="js/grid.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/world.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/main.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/jsx" src="js/ui.jsx"></script>
+
 </html>
