@@ -1,15 +1,6 @@
 function Grid(width, height) {
     this.cells = [];
 
-    this.CellType = {
-        PLAIN: 0,
-        MOUNTAIN: 1,
-        ROCK: 2,
-        START: 3,
-        END: 4,
-        HOUSE: 5
-    };
-
     this.width = width;
     this.height = height;
 
@@ -23,7 +14,7 @@ Grid.prototype.getStart = function() {
     }
     for (i = 0; i < this.width; i++) {
         for (j = 0; j < this.height; j++) {
-            if (this.cells[i][j] == this.CellType.START) {
+            if (this.cells[i][j] == CellType.START) {
                 this.start = [i, j];
                 return [i, j];
             }
@@ -37,7 +28,7 @@ Grid.prototype.getEnd = function() {
     }
     for (i = 0; i < this.width; i++) {
         for (j = 0; j < this.height; j++) {
-            if (this.cells[i][j] == this.CellType.END) {
+            if (this.cells[i][j] == CellType.END) {
                 this.end = [i, j];
                 return [i, j];
             }
@@ -52,16 +43,16 @@ Grid.prototype.addRow = function(row) {
 Grid.prototype.getCellTypeByRGBA = function(data) {
     switch (data[0]) {
         case 217:
-            return this.CellType.PLAIN;
+            return CellType.PLAIN;
         case 128:
-            return this.CellType.MOUNTAIN;
+            return CellType.MOUNTAIN;
         case 191:
-            return this.CellType.ROCK;
+            return CellType.ROCK;
         case 255:
-            return this.CellType.START;
+            return CellType.START;
         case 0:
-            return this.CellType.END;
+            return CellType.END;
         default:
-            return this.CellType.HOUSE;
+            return CellType.HOUSE;
     }
 };

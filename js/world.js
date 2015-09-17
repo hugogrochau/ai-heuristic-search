@@ -56,26 +56,25 @@ World.prototype.initGrid = function() {
 };
 
 World.prototype.populateGrid = function() {
+    var imageBuffer = new Uint32Array(this.context.getImageData(0,0, this.IMAGE_WIDTH, this.IMAGE_HEIGHT).data.buffer);
     for (i = 0; i < this.GRID_HEIGHT; i++) { // for each row
         var rowArray = [];
-        var y = i * this.CELL_HEIGHT + this.CELL_HEIGHT / 4;
-        y = Math.floor(y);
         for (j = 0; j < this.GRID_WIDTH; j++) {
-            var x = j * this.CELL_WIDTH + this.CELL_WIDTH / 2;
-            x = Math.floor(x);
-            rowArray.push(this.grid.getCellTypeByRGBA(this.context.getImageData(
-                x,
-                y,
-                1, 1).data));
-            // drawCross(x, y, context);
+            var coords = this.getCoordsByIndex(i,j);
+            coords[0] += Math.floor(this.CELL_WIDTH/2);
+            coords[1] += Math.floor(this.CELL_HEIGHT/4);
+            // drawCross(coords[0], coords[1], this.context);
+            // var data = imageBuffer[coords[0] + coords[1] * this.IMAGE_WIDTH];
+            // console.log([data.toString(16), coords[0], coords[1], j, i]);
+            rowArray.push(CellType.getCellTypeByRGBA(imageBuffer[coords[0] + coords[1] * this.IMAGE_WIDTH]));
         }
         this.grid.addRow(rowArray);
     }
 };
 
 World.prototype.getCoordsByIndex = function(i, j) {
-    var x = Math.floor(i * this.CELL_WIDTH);
-    var y = Math.floor(j * this.CELL_HEIGHT);
+    var x = Math.floor(j * this.CELL_WIDTH);
+    var y = Math.floor(i * this.CELL_HEIGHT);
     return [x, y];
 };
 
@@ -84,6 +83,14 @@ World.prototype.render = function() {
     this.context.drawImage(this.gridImage, 0, 0);
     this.context.drawImage(this.SeiyaImage,
         coords[0], coords[1] + 1);
+    for (i = 0; i < this.GRID_HEIGHT; i++) {
+        for (j = 0; j < this.GRID_HEIGHT; j++) {
+            this.context.font = "12px serif";
+            var tmpCoords = this.getCoordsByIndex(i,j);
+            this.context.fillStyle = "#FF0000";
+            this.context.fillText(this.grid.cells[i][j], tmpCoords[0] + Math.floor(this.CELL_WIDTH/4), tmpCoords[1] + Math.floor(this.CELL_HEIGHT/2));
+        }
+    }
     statusData = {
         'saints': this.saints,
         'position': this.position,
