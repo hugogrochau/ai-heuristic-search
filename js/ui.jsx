@@ -5,6 +5,8 @@ var Status = React.createClass({
                 <h2>Status</h2>
                 <EnergyTable energyData = {this.props.data.saints}/>
                 <span>Steps: {this.props.data.steps}</span> < br />
+                <span>Path Size: {this.props.data.pathSize}</span> < br />
+                <span>Path Cost: {this.props.data.pathCost}</span> < br />
                 <span>Current Position: {this.props.data.position[0]}, {this.props.data.position[1]}</span>
             </div>
         );

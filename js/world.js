@@ -81,6 +81,7 @@ World.prototype.getCoordsByIndex = function(index) {
 
 World.prototype.render = function() {
     var coords = this.getCoordsByIndex(this.astar.currentCellIndex);
+    var pathLength = 0;
     this.context.drawImage(this.gridImage, 0, 0);
     this.context.drawImage(this.SeiyaImage,
         coords[0], coords[1] + 1);
@@ -96,17 +97,22 @@ World.prototype.render = function() {
         for (var k = 0; k < this.astar.path.length; k++) {
             this.drawCrossOnIndex(this.astar.path[k], "#0000FF");
         }
+        pathLength = this.astar.path.length;
     } else {
         var partialPath = this.astar.pathToIndex(this.astar.currentCellIndex);
         for (var l = 0; l < partialPath.length; l++) {
             this.drawCrossOnIndex(partialPath[l], "#0000FF");
         }
+        pathLength = partialPath.length;
     }
     /* data for react */
     statusData = {
         'saints': this.saints,
         'position': this.astar.currentCellIndex,
         'steps': this.astar.steps,
+        'pathSize': pathLength,
+        'pathCost': this.grid.getCellByIndex(this.astar.currentCellIndex)
+            .gCost
     };
     renderStatus(statusData);
 };

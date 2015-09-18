@@ -2,7 +2,7 @@ function AStar(grid) {
     this.grid = grid;
     this.openCellsIndexes = [];
     this.closedCellsIndexes = [];
-    this.currentCellIndex = [];
+    this.currentCellIndex = null;
     this.path = null;
     this.steps = 0;
 }
@@ -54,8 +54,10 @@ AStar.prototype.getLowestFCostCell = function(cells) {
 AStar.prototype.start = function() {
     var start = this.grid.getStart();
     var end = this.grid.getEnd();
+    var startCell = this.grid.getCellByIndex(start);
     this.openCellsIndexes = [start];
-    this.grid.getCellByIndex(start).gCost = 0;
+    startCell.gCost = 0;
+    startCell.fCost = this.calculateManhattan(start);
 };
 
 AStar.prototype.step = function() {
@@ -93,25 +95,21 @@ AStar.prototype.step = function() {
             -1) { // if neighbor is in the closed set
             continue;
         }
-        var effectiveGCost = currentCell.gCost + CellType.getCost(
+        var tentativeGScore = currentCell.gCost + CellType.getCost(
             neighborCell.type);
-        //    console.log("EffectiveGCost : " + effectiveGCost.toString());
+        var tentativeGScoreIsBest = false;
         if (this.grid.findCellIndexFromArray(this.openCellsIndexes,
-                neighborIndex) !==
-            -1 || neighborCell.gCost === Infinity || effectiveGCost <
-            neighborCell.gCost) { // if neighbor is in the opened set or if its cost is infinite
+                neighborIndex) === -1) {
+            tentativeGScoreIsBest = true;
+            this.openCellsIndexes.push(neighborIndex);
+        } else if (tentativeGScore < neighborCell.gCost) {
+            tentativeGScoreIsBest = true;
+        }
+        if (tentativeGScoreIsBest) {
             neighborCell.parentCellIndex = this.currentCellIndex;
-            neighborCell.gCost = effectiveGCost;
-            neighborCell.fCost = effectiveGCost + this.calculateManhattan(
+            neighborCell.gCost = tentativeGScore;
+            neighborCell.fCost = tentativeGScore + this.calculateManhattan(
                 neighborIndex);
-            //        console.log("Manhattan : " + this.calculateManhattan(
-            //            neighborIndex).toString());
-            //        console.log(neighborCell.fCost);
-            if (this.grid.findCellIndexFromArray(this.openCellsIndexes,
-                    neighborIndex) ==
-                -1) {
-                this.openCellsIndexes.push(neighborIndex);
-            }
         }
     }
     return null;
