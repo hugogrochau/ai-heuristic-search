@@ -4,7 +4,7 @@ var Status = React.createClass({
             <div id="status">
                 <h2>Status</h2>
                 <EnergyTable energyData = {this.props.data.saints}/>
-                <span>Time Elapsed: {this.props.data.timeElapsed}</span> < br />
+                <span>Steps: {this.props.data.steps}</span> < br />
                 <span>Current Position: {this.props.data.position[0]}, {this.props.data.position[1]}</span>
             </div>
         );

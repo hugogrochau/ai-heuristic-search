@@ -1,15 +1,9 @@
 /* debug methods */
 
-function drawCross(x, y, context) {
-	context.beginPath();
-	context.moveTo(x, y - 5);
-	context.lineTo(x, y + 5);
-	context.strokeStyle = '#ff0000';
-	context.stroke();
-	context.moveTo(x - 5, y);
-	context.lineTo(x + 5, y);
-	context.strokeStyle = '#ff0000';
-	context.stroke();
+function as() {
+	var astar = new AStar(world.grid);
+	astar.start();
+	return astar;
 }
 
 var world = new World();
@@ -17,4 +11,16 @@ var world = new World();
 document.getElementById("take-energy").addEventListener('click', function() {
 	world.saints[0].useEnergy();
 	world.render();
+});
+
+document.getElementById("astar-step").addEventListener('click', function() {
+	world.astarStep();
+});
+
+document.getElementById("astar-10step").addEventListener('click', function() {
+	for (var i = 0; i < 10; i++) world.astarStep();
+});
+
+document.getElementById("astar-end").addEventListener('click', function() {
+	world.astarEnd();
 });

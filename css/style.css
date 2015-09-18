@@ -19,3 +19,8 @@ table {
 table td, table th {
    border: 1px solid black;
 }
+
+button {
+    display: block;
+    margin: 10px 0;
+}

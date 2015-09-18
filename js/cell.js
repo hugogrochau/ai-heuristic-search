@@ -1,7 +1,6 @@
-function Cell(cellType, ) {
-
-	this.posy = posy;
-    this.posx = posx;
-    this.fcost = -1;
-    this.parentNode = null;
+function Cell(cellType) {
+	this.fCost = Infinity;
+	this.gCost = Infinity;
+	this.parentCellIndex = null;
+	this.type = cellType;
 }

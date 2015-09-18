@@ -8,7 +8,7 @@ var CellType = {
 };
 
 CellType.getCost = function(cellType) {
-    switch(cellType) {
+    switch (cellType) {
         case CellType.MOUNTAIN:
             return 200;
         case CellType.ROCK:
@@ -17,6 +17,8 @@ CellType.getCost = function(cellType) {
             return Infinity;
         case CellType.END:
         case CellType.PLAIN:
+        case CellType.HOUSE:
+            return 1;
         default:
             return 1;
     }
