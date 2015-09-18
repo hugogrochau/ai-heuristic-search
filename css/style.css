@@ -1,8 +1,8 @@
-canvas, .game-info {
+canvas, .game-ui {
     display: inline-block;
 }
 
-.game-info {
+.game-ui {
     vertical-align: top;
 }
 
@@ -11,16 +11,6 @@ canvas, .game-info {
     position: absolute;
 }
 
-table {
-   border-collapse: collapse;
-   border: 1px solid black;
-}
-
-table td, table th {
-   border: 1px solid black;
-}
-
-button {
-    display: block;
-    margin: 10px 0;
+.button-container {
+    margin-bottom: 15px;
 }

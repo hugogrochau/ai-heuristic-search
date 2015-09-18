@@ -1,14 +1,17 @@
 var Status = React.createClass({
     render: function() {
         return (
-            <div id="status">
-                <h2>Status</h2>
-                <EnergyTable energyData = {this.props.data.saints}/>
-                <span>Steps: {this.props.data.steps}</span> < br />
-                <span>Path Size: {this.props.data.pathSize}</span> < br />
-                <span>Path Cost: {this.props.data.pathCost}</span> < br />
-                <span>Current Position: {this.props.data.position[0]}, {this.props.data.position[1]}</span>
-            </div>
+            <div className="panel panel-primary" id="status">
+                <div className="panel-heading">
+                    <h2 className="panel-title">Status</h2>
+                </div>
+                <div className="panel-body">
+                    <span>Steps: {this.props.data.steps}</span> < br />
+                    <span>Path Size: {this.props.data.pathSize}</span> < br />
+                    <span>Path Cost: {this.props.data.pathCost}</span> < br />
+                    <span>Current Position: {this.props.data.position[0]}, {this.props.data.position[1]}</span>
+                </div>
+        </div>
         );
     }
 });
@@ -22,7 +25,7 @@ var EnergyTable = React.createClass({
         });
         return (
             <div id="energy">
-                <table id="energy-table">
+                <table className="table table-striped" id="energy-table">
                     <tr>
                         <th>
                             Saints
@@ -49,5 +52,6 @@ var EnergyRow = React.createClass({
 });
 
 function renderStatus(data) {
-    React.render(<Status data={data} />, document.getElementById("status"));
+    React.render(<Status data={data} />, document.getElementById("information"));
+    React.render(<EnergyTable energyData={data.saints}/>, document.getElementById("energy"));
 }
