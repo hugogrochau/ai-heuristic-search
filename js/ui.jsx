@@ -1,3 +1,4 @@
+/** @jsx React.createElement */
 var Status = React.createClass({
     render: function() {
         return (
@@ -11,7 +12,7 @@ var Status = React.createClass({
                     <span>Path Cost: {this.props.data.pathCost}</span> < br />
                     <span>Current Position: {this.props.data.position[0]}, {this.props.data.position[1]}</span>
                 </div>
-        </div>
+            </div>
         );
     }
 });
@@ -20,8 +21,8 @@ var EnergyTable = React.createClass({
     render: function() {
         var energyRows = this.props.energyData.map(function (row) {
             return (
-                <EnergyRow name = {row.name} energy = {row.energyLeft} />
-            )
+                <EnergyRow name = {row.name} power = {row.power} energy = {row.energyLeft} />
+            );
         });
         return (
             <div id="energy">
@@ -29,6 +30,9 @@ var EnergyTable = React.createClass({
                     <tr>
                         <th>
                             Saints
+                        </th>
+                        <th>
+                            Power
                         </th>
                         <th>
                             Energy
@@ -45,9 +49,10 @@ var EnergyRow = React.createClass({
         return (
             <tr>
                 <td>{this.props.name}</td>
+                <td>{this.props.power}</td>
                 <td>{this.props.energy}</td>
             </tr>
-        )
+        );
     }
 });
 

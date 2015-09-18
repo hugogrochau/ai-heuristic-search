@@ -1,17 +1,5 @@
 /* debug methods */
-
-function as() {
-	var astar = new AStar(world.grid);
-	astar.start();
-	return astar;
-}
-
 var world = new World();
-
-document.getElementById("take-energy").addEventListener('click', function() {
-	world.saints[0].useEnergy();
-	world.render();
-});
 
 document.getElementById("astar-step").addEventListener('click', function() {
 	world.astarStep();
