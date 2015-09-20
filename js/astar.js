@@ -62,7 +62,7 @@ AStar.prototype.start = function() {
 
 AStar.prototype.step = function() {
     if (this.openCellsIndexes.length <= 0) { // if there are no more opened cells
-        return [];
+        return false;
     }
     if (this.path !== null) {
         return this.path;
@@ -112,5 +112,5 @@ AStar.prototype.step = function() {
                 neighborIndex);
         }
     }
-    return null;
+    return true;
 };

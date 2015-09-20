@@ -20,6 +20,18 @@ function World() {
     this.grid = new Grid(this.GRID_WIDTH, this.GRID_HEIGHT);
     this.gridImage = new Image();
     this.SeiyaImage = new Image();
+    this.saintPowers = [
+        1.5, 1.4, 1.3, 1.2, 1.2
+    ];
+    this.saintNames = [
+        "Seiya",
+        "Shiryu",
+        "Hyoga",
+        "Shun",
+        "Ikki"
+    ];
+    this.saintsEnergies = [5, 5, 5, 5, 5];
+    this.houseCosts = [50, 55, 60, 70, 75, 80, 85, 90, 95, 100, 110, 120];
     this.saints = [
         new Saint("Seiya", 1.5),
         new Saint("Shiryu", 1.4),
@@ -29,7 +41,7 @@ function World() {
     ];
 
     this.astar = null;
-
+    this.saintSearch = null;
     this.timeElapsed = 0;
     this.position = null;
     this.loadImages();
@@ -146,7 +158,7 @@ World.prototype.astarEnd = function() {
         this.astar = new AStar(this.grid);
         this.astar.start();
     }
-    while (this.astar.step() === null);
+    while (this.astar.step() === true);
     this.render();
 };
 
