@@ -7,6 +7,13 @@ function AStar(grid) {
     this.steps = 0;
 }
 
+function Cell(cellType) {
+    this.fCost = Infinity;
+    this.gCost = Infinity;
+    this.parentCellIndex = null;
+    this.type = cellType;
+}
+
 AStar.prototype.pathToEnd = function() {
     var end = this.grid.getEnd();
     this.path = this.pathToIndex(end);
@@ -61,7 +68,7 @@ AStar.prototype.start = function() {
 };
 
 AStar.prototype.step = function() {
-    if (this.openCellsIndexes.length <= 0) { // if there are no more opened cells
+    if (this.openCellsIndexes.length === 0) { // if there are no more opened cells
         return false;
     }
     if (this.path !== null) {
@@ -95,20 +102,20 @@ AStar.prototype.step = function() {
             -1) { // if neighbor is in the closed set
             continue;
         }
-        var tentativeGScore = currentCell.gCost + CellType.getCost(
+        var tentativeGCost = currentCell.gCost + CellType.getCost(
             neighborCell.type);
-        var tentativeGScoreIsBest = false;
+        var tentativeGCostIsBest = false;
         if (this.grid.findCellIndexFromArray(this.openCellsIndexes,
                 neighborIndex) === -1) {
-            tentativeGScoreIsBest = true;
+            tentativeGCostIsBest = true;
             this.openCellsIndexes.push(neighborIndex);
-        } else if (tentativeGScore < neighborCell.gCost) {
-            tentativeGScoreIsBest = true;
+        } else if (tentativeGCost < neighborCell.gCost) {
+            tentativeGCostIsBest = true;
         }
-        if (tentativeGScoreIsBest) {
+        if (tentativeGCostIsBest) {
             neighborCell.parentCellIndex = this.currentCellIndex;
-            neighborCell.gCost = tentativeGScore;
-            neighborCell.fCost = tentativeGScore + this.calculateManhattan(
+            neighborCell.gCost = tentativeGCost;
+            neighborCell.fCost = tentativeGCost + this.calculateManhattan(
                 neighborIndex);
         }
     }
