@@ -17,8 +17,9 @@ CellType.getCost = function(cellType) {
             return Infinity;
         case CellType.END:
         case CellType.PLAIN:
-        case CellType.HOUSE:
             return 1;
+        case CellType.HOUSE:
+            return 0;
         default:
             return 1;
     }
