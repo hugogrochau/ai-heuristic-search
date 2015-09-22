@@ -1,10 +1,9 @@
-/** @jsx React.createElement */
-var Status = React.createClass({
+var PathFindStatus = React.createClass({
     render: function() {
         return (
-            <div className="panel panel-primary" id="status">
+            <div className="panel panel-primary" id="path-find-status">
                 <div className="panel-heading">
-                    <h2 className="panel-title">Status</h2>
+                    <h2 className="panel-title">Path Find Status</h2>
                 </div>
                 <div className="panel-body">
                     <span>Steps: {this.props.data.steps}</span> < br />
@@ -17,46 +16,99 @@ var Status = React.createClass({
     }
 });
 
-var EnergyTable = React.createClass({
+
+var BossFightStatus = React.createClass({
     render: function() {
-        var energyRows = this.props.energyData.map(function (row) {
-            return (
-                <EnergyRow name = {row.name} power = {row.power} energy = {row.energyLeft} />
-            );
-        });
         return (
-            <div id="energy">
+            <div className="panel panel-primary" id="boss-fight-status">
+                <div className="panel-heading">
+                    <h2 className="panel-title">Boss Fight Status</h2>
+                </div>
+                <div className="panel-body">
+                    <span>Duration: {this.props.data.duration}ms</span> <br />
+                    <span>Total Boss Fight Cost: {this.props.data.totalCost}</span> <br />
+                    <BossFightTable data={this.props.data}/>
+                </div>
+            </div>
+        );
+    }
+});
+
+
+var BossFightTable = React.createClass({
+    render: function() {
+        var fightRows = [];
+        var numberOfHouses = this.props.data.houseCosts.length;
+        for (var i = 0; i < this.props.data.houseCosts.length; i++) {
+                fightRows.push(<BossFightRow houseNumber = {i+1} houseCost = {this.props.data.houseCosts[numberOfHouses - 1 - i]} node = {this.props.data.nodes[i]} names = {this.props.data.saintNames} />);
+        }
+        return (
+            <div id="boss-fight-table">
+                <h2>Boss Fights</h2>
                 <table className="table table-striped" id="energy-table">
                     <tr>
                         <th>
-                            Saints
+                            House Number
                         </th>
                         <th>
-                            Power
+                            House Difficulty
                         </th>
                         <th>
-                            Energy
+                            Combination
+                        </th>
+                        <th>
+                            Effective Cost
                         </th>
                     </tr>
-                    {energyRows}
+                    {fightRows}
                 </table>
             </div>);
     }
 });
 
-var EnergyRow = React.createClass({
+function calcEffectiveCost(houseCost, indexes, powers) {
+    var totalPowers = 0;
+    for (var i = 0; i < indexes.length; i++) {
+        totalPowers += powers[indexes[i]];
+    }
+    return Math.round(houseCost / totalPowers);
+}
+
+var BossFightRow = React.createClass({
     render: function() {
+        var saints = [];
+        for (var i = 0; i < this.props.node.combination.length; i++) {
+            var saintIndex = this.props.node.combination[i];
+            saints.push(<Saint name = {this.props.names[saintIndex]} power = {this.props.node.powers[saintIndex]} energyLeft = {this.props.node.energies[saintIndex]}/>);
+        }
         return (
             <tr>
-                <td>{this.props.name}</td>
-                <td>{this.props.power}</td>
-                <td>{this.props.energy}</td>
+                <td>{this.props.houseNumber}</td>
+                <td>{this.props.houseCost}</td>
+                <td>{saints}</td>
+                <td>{calcEffectiveCost(this.props.houseCost, this.props.node.combination, this.props.node.powers)}</td>
             </tr>
         );
     }
 });
 
-function renderStatus(data) {
-    React.render(<Status data={data} />, document.getElementById("information"));
-    React.render(<EnergyTable energyData={data.saints}/>, document.getElementById("energy"));
+var Saint = React.createClass({
+    render: function() {
+        return (
+            <div class="saint">
+                <span>Name: {this.props.name} </span>
+                <span>Power: {this.props.power} </span>
+                <span>Energy Left: {this.props.energyLeft} </span>
+            </div>
+        );
+    }
+});
+
+function renderStatus(pathFindData, bossFightData) {
+    if (pathFindData !== null) {
+        React.render(<PathFindStatus data={pathFindData} />, document.getElementById("path-status"));
+    }
+    if (bossFightData.nodes !== null) {
+        React.render(<BossFightStatus data={bossFightData} />, document.getElementById("boss-status"));
+    }
 }

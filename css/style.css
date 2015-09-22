@@ -6,7 +6,7 @@ canvas, .game-ui {
     vertical-align: top;
 }
 
-.status-info {
+.status-container {
     display: block;
     position: absolute;
 }
