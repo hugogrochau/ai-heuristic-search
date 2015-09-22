@@ -7,6 +7,22 @@ function calcEffectiveCost(houseCost, indexes, powers) {
     return houseCost / totalPowers;
 }
 
+function timeAlgorithms() {
+    console.log("Timing A*");
+    var tmp = world.render;
+    var beforeTimestamp = Date.now();
+    world.render = function() {};
+    world.astarEnd();
+
+    console.log("A* took " + (Date.now() - beforeTimestamp) + "ms");
+    console.log("Timing Boss Fight Heuristic");
+    beforeTimestamp = Date.now();
+    world.saintSearch();
+    console.log("Boss Fight Heuristic took " + (Date.now() -
+        beforeTimestamp) + "ms");
+    world.render = tmp;
+}
+
 var world = new World();
 
 document.getElementById("astar-step")
