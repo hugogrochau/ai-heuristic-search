@@ -1,13 +1,3 @@
-function Saint(name, power) {
-    this.name = name;
-    this.power = power;
-    this.energyLeft = 5;
-}
-
-Saint.prototype.useEnergy = function() {
-    this.energyLeft--;
-};
-
 function World() {
     this.IMAGE_WIDTH = 941;
     this.IMAGE_HEIGHT = 1009;
@@ -25,9 +15,9 @@ function World() {
     this.saintPowers = [1.5, 1.4, 1.3, 1.2, 1.2];
     this.saintNames = ["Seiya", "Shiryu", "Hyoga", "Shun", "Ikki"];
     this.saintEnergies = [5, 5, 5, 5, 5];
-    this.houseCosts = [120, 110, 100, 95, 90, 85, 80, 75, 70, 60, 55, 50];
+    this.houseCosts = [50, 55, 60, 70, 75, 80, 85, 90, 95, 100, 110, 120];
     this.saintSearchDuration = -1;
-    this.saintCombinations = null;
+    this.houseResults = null;
 
     this.astar = null;
     this.timeElapsed = 0;
@@ -127,32 +117,19 @@ World.prototype.astarStep = function() {
 };
 
 World.prototype.saintSearch = function() {
-    var beforeTimestamp = (new Date()).getTime();
-    var numberOfHouses = this.houseCosts.length;
-    var superNode = new SaintNode(0, null, 0, this.saintEnergies,
-        this.saintPowers, this.houseCosts);
-    superNode.possibilities = superNode.getNextHousePossibilities();
-    var currentNode = superNode;
-    if (superNode.possibilities.length === 0) {
-        console.log("No path found");
-        return [];
+    var houseResults = BossFightHeuristic.solve(this.houseCosts, this.saintEnergies,
+        this.saintPowers);
+    var that = this;
+    var totalCost = 0;
+    for (var i = 0; i < houseResults.length; i++) {
+        totalCost += calcEffectiveCost(houseResults[i].difficulty,
+            houseResults[i].saints,
+            that.saintPowers);
     }
-    var searchStepResult = superNode.searchStep(currentNode, 12);
-    while (searchStepResult[0] === false) {
-        currentNode = searchStepResult[1].owner;
-        if (currentNode === null) { // NAO ENCONTROU NINGUEM
-            return [];
-        }
-        searchStepResult = superNode.searchStep(currentNode, 12);
-    }
-
-    currentNode = searchStepResult[1];
-
-    this.saintSearchDuration = (new Date()).getTime() - beforeTimestamp;
-    this.saintCombinations = superNode.calculatePath(currentNode);
+    this.houseResults = houseResults;
+    this.totalBossFightCost = Math.round(totalCost);
     this.render();
-    return this.saintCombinations;
-};
+}
 
 World.prototype.render = function() {
     var pathFindData = null;
@@ -195,10 +172,12 @@ World.prototype.render = function() {
 
     var bossFightData = {
         'saintNames': this.saintNames,
+        'saintPowers': this.saintPowers,
+        'saintEnergies': this.saintEnergies,
         'houseCosts': this.houseCosts,
-        'duration': this.saintSearchDuration,
-        'totalCost': this.saintCombinations[0].cost,
-        'nodes': this.saintCombinations
+        'totalCost': this.totalBossFightCost,
+        'nodes': this.houseResults
     };
+
     renderStatus(pathFindData, bossFightData);
 };
