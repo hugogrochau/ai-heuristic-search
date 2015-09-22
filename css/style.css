@@ -4,11 +4,7 @@ canvas, .game-ui {
 
 .game-ui {
     vertical-align: top;
-}
-
-.status-container {
-    display: block;
-    position: absolute;
+    margin: 20px;
 }
 
 .button-container {
