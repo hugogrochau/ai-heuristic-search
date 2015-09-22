@@ -38,7 +38,7 @@ var SaintStatsTable = React.createClass({
     render: function() {
         var saintStatsRows = [];
         for (var i = 0; i < this.props.data.saintEnergies.length; i++) {
-            saintStatsRows.push(<SaintStatsRow name = {this.props.data.saintNames[i]} power = {this.props.data.saintPowers[i]} energy = {this.props.data.saintEnergies[i]} />);
+            saintStatsRows.push(<SaintStatsRow key={i} name = {this.props.data.saintNames[i]} power = {this.props.data.saintPowers[i]} energy = {this.props.data.saintEnergies[i]} />);
         }
         return (
             <div id="stats">
@@ -78,7 +78,7 @@ var BossFightTable = React.createClass({
         var fightRows = [];
         var numberOfHouses = this.props.data.houseCosts.length;
         for (var i = 0; i < this.props.data.houseCosts.length; i++) {
-                fightRows.push(<BossFightRow houseNumber = {i+1} houseCost = {this.props.data.houseCosts[i]} node = {this.props.data.nodes[i]} names = {this.props.data.saintNames} powers = {this.props.data.saintPowers}/>);
+                fightRows.push(<BossFightRow key = {i} houseNumber = {i+1} houseCost = {this.props.data.houseCosts[i]} node = {this.props.data.nodes[i]} names = {this.props.data.saintNames} powers = {this.props.data.saintPowers}/>);
         }
         return (
             <div id="boss-fight-table">
@@ -109,7 +109,7 @@ var BossFightRow = React.createClass({
         var saints = [];
         for (var i = 0; i < this.props.node.saints.length; i++) {
             var saintIndex = this.props.node.saints[i];
-            saints.push(<span>{this.props.names[saintIndex]}, </span>);
+            saints.push(<span key={i}>{this.props.names[saintIndex]}, </span>);
         }
         return (
             <tr>
