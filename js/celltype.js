@@ -28,11 +28,11 @@ CellType.getCost = function(cellType) {
 CellType.getCellTypeByRGBA = function(data) {
     switch (data) {
         case 0xFFD9D9D9:
-            return CellType.PLAIN;
+            return CellType.ROCK;
         case 0xFF808080:
             return CellType.MOUNTAIN;
         case 0xFFBFBFBF:
-            return CellType.ROCK;
+            return CellType.PLAIN;
         case 0xFF0000FF:
             return CellType.START;
         case 0xFF50B000:

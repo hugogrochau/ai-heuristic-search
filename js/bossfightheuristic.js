@@ -50,8 +50,10 @@ function Saint(energy, power, number) {
 
 BossFightHeuristic.getMostPowerfulSaintAvailable = function(saints) {
     var mostPowerfulSaint = null;
+    var numSaintsAvailable = 0;
     saints.map(function(saint) {
-        if (saint.energy > 1) {
+        if (saint.energy > 0) {
+            numSaintsAvailable++;
             if (mostPowerfulSaint === null) {
                 mostPowerfulSaint = saint;
             } else {
@@ -61,5 +63,8 @@ BossFightHeuristic.getMostPowerfulSaintAvailable = function(saints) {
             }
         }
     });
+    if (numSaintsAvailable === 1 && mostPowerfulSaint.energy === 1) { // last saint alive
+        return null;
+    }
     return mostPowerfulSaint;
 }

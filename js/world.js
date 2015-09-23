@@ -127,7 +127,7 @@ World.prototype.saintSearch = function() {
             that.saintPowers);
     }
     this.houseResults = houseResults;
-    this.totalBossFightCost = Math.round(totalCost);
+    this.totalBossFightCost = totalCost;
     this.render();
 }
 
